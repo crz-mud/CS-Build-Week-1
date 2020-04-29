@@ -20,7 +20,6 @@ def rooms(request):
     # print(rooms)
     # print(Player.initialize(request.user))
     return JsonResponse({
-        'test': 'testing',
         'rooms': rooms
     }, safe=True)
 
