@@ -5,11 +5,23 @@ from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.models import User
 from .models import *
+from util import create_world
 from rest_framework.decorators import api_view
 import json
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
+
+@csrf_exempt
+@api_view(["GET"])
+def rooms(request):
+    create_world
+    rooms = Room.listRooms()
+    # print(rooms)
+    # print(Player.initialize(request.user))
+    return JsonResponse({
+        'rooms': rooms
+    }, safe=True)
 
 @csrf_exempt
 @api_view(["GET"])
