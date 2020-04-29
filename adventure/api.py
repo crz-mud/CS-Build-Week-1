@@ -15,7 +15,7 @@ import json
 @csrf_exempt
 @api_view(["GET"])
 def rooms(request):
-    create_world
+    # create_world
     rooms = Room.listRooms()
     # print(rooms)
     # print(Player.initialize(request.user))
