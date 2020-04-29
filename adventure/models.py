@@ -12,6 +12,8 @@ class Room(models.Model):
     s_to = models.IntegerField(default=0)
     e_to = models.IntegerField(default=0)
     w_to = models.IntegerField(default=0)
+    def listRooms():
+        return [{"title": item.title, "description": item.description} for item in Room.objects.all()]
     def connectRooms(self, destinationRoom, direction):
         destinationRoomID = destinationRoom.id
         try:
