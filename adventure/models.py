@@ -6,43 +6,48 @@ from rest_framework.authtoken.models import Token
 import uuid
 
 class Room(models.Model):
+    # id = models.AutoField(primary_key=True)
+    # room_number = models.IntegerField(default=0)
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    n_to = models.IntegerField(default=0)
-    s_to = models.IntegerField(default=0)
-    e_to = models.IntegerField(default=0)
-    w_to = models.IntegerField(default=0)
+    n_to = models.IntegerField(default=None)
+    s_to = models.IntegerField(default=None)
+    e_to = models.IntegerField(default=None)
+    w_to = models.IntegerField(default=None)
+    x = models.IntegerField(default=0)
+    y = models.IntegerField(default=0)
     def listRooms():
         return [{
-                "pk": item.pk,
-                "id": item.id,
-                "title": item.title, 
-                "description": item.description,
-                "n_to": item.n_to,
-                "s_to": item.s_to,
-                "e_to": item.e_to,
-                "w_to": item.w_to
-                } for item in Room.objects.all()
+                "pk": room.pk,
+                "id": room.id,
+                "title": room.title,
+                "description": room.description,
+                "n_to": room.n_to,
+                "s_to": room.s_to,
+                "e_to": room.e_to,
+                "w_to": room.w_to,
+                "x": room.x,
+                "y": room.y
+                } for room in Room.objects.all()
             ]
-    def connectRooms(self, destinationRoom, direction):
-        destinationRoomID = destinationRoom.id
-        try:
-            destinationRoom = Room.objects.get(id=destinationRoomID)
-        except Room.DoesNotExist:
-            print("That room does not exist")
-        else:
-            if direction == "n":
-                self.n_to = destinationRoomID
-            elif direction == "s":
-                self.s_to = destinationRoomID
-            elif direction == "e":
-                self.e_to = destinationRoomID
-            elif direction == "w":
-                self.w_to = destinationRoomID
-            else:
-                print("Invalid direction")
-                return
-            self.save()
+    def __repr__(self):
+        if self.e_to is not None:
+            return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
+        return f"({self.x}, {self.y})"
+    def connect_rooms(self, connecting_room, direction):
+        '''
+        Connect two rooms in the given n/s/e/w direction
+        '''
+        reverse_dirs = {"n": "s", "s": "n", "e": "w", "w": "e"}
+        reverse_dir = reverse_dirs[direction]
+        setattr(self, f"{direction}_to", connecting_room.id)
+        setattr(connecting_room, f"{reverse_dir}_to", self.id)
+        self.save()
+    def get_room_in_direction(self, direction):
+        '''
+        Connect two rooms in the given n/s/e/w direction
+        '''
+        return getattr(self, f"{direction}_to")
     def playerNames(self, currentPlayerID):
         return [p.user.username for p in Player.objects.filter(currentRoom=self.id) if p.id != int(currentPlayerID)]
     def playerUUIDs(self, currentPlayerID):
