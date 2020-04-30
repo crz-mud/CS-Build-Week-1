@@ -10,10 +10,10 @@ class Room(models.Model):
     # room_number = models.IntegerField(default=0)
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
-    n_to = models.IntegerField(default=None)
-    s_to = models.IntegerField(default=None)
-    e_to = models.IntegerField(default=None)
-    w_to = models.IntegerField(default=None)
+    n_to = models.IntegerField(default=None, null=True)
+    s_to = models.IntegerField(default=None, null=True)
+    e_to = models.IntegerField(default=None, null=True)
+    w_to = models.IntegerField(default=None, null=True)
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
     def listRooms():
@@ -43,6 +43,7 @@ class Room(models.Model):
         setattr(self, f"{direction}_to", connecting_room.id)
         setattr(connecting_room, f"{reverse_dir}_to", self.id)
         self.save()
+        connecting_room.save()
     def get_room_in_direction(self, direction):
         '''
         Connect two rooms in the given n/s/e/w direction
