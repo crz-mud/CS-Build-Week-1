@@ -56,7 +56,7 @@ class World:
         # Start from lower-left corner (0,0)
         x = -1 # (this will become 0 on the first step)
         y = 0
-        room_count = 0
+        room_count = 1
 
         # Start generating rooms to the east
         direction = 1  # 1: east, -1: west
@@ -80,7 +80,7 @@ class World:
                 direction *= -1
 
             # Create a room in the given direction
-            room = Room(room_count, "A Generic Room", "This is a generic room.", x, y)
+            room = Room(id=room_count, title="A Generic Room", description="This is a generic room.", x=x, y=y)
             # Note that in Django, you'll need to save the room after you create it
 
             # Save the room in the World grid

@@ -7,6 +7,7 @@ import uuid
 
 class Room(models.Model):
     # id = models.AutoField(primary_key=True)
+    id = models.IntegerField(default=0, primary_key=True)
     # room_number = models.IntegerField(default=0)
     title = models.CharField(max_length=50, default="DEFAULT TITLE")
     description = models.CharField(max_length=500, default="DEFAULT DESCRIPTION")
@@ -30,10 +31,10 @@ class Room(models.Model):
                 "y": room.y
                 } for room in Room.objects.all()
             ]
-    def __repr__(self):
-        if self.e_to is not None:
-            return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
-        return f"({self.x}, {self.y})"
+    # def __repr__(self):
+    #     # if self.e_to is not None:
+    #     #     return f"({self.x}, {self.y}) -> ({self.e_to.x}, {self.e_to.y})"
+    #     return f"n: {self.n_to}, e: {self.e_to}, s: {self.s_to}, w: {self.w_to}"
     def connect_rooms(self, connecting_room, direction):
         '''
         Connect two rooms in the given n/s/e/w direction
