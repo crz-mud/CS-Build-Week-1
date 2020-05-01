@@ -56,7 +56,7 @@ class World:
         # Start from lower-left corner (0,0)
         x = -1 # (this will become 0 on the first step)
         y = 0
-        room_count = 1
+        room_count = 0
 
         # Start generating rooms to the east
         direction = 1  # 1: east, -1: west
@@ -152,7 +152,7 @@ class World:
 
 
 w = World()
-num_rooms = 100
+num_rooms = 101
 width = 8
 height = 13
 w.generate_rooms(width, height, num_rooms)
