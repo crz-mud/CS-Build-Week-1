@@ -80,7 +80,7 @@ class World:
                 direction *= -1
 
             # Create a room in the given direction
-            room = Room(id=room_count, title="A Generic Room", description="This is a generic room.", x=x, y=y)
+            room = Room(id=room_count, title=f"Room {room_count}", description=f"Link {room_count} in the chain", x=x, y=y)
             # Note that in Django, you'll need to save the room after you create it
 
             # Save the room in the World grid
